@@ -18,7 +18,7 @@ class Heap {
     hasLeftChild(parentIndex) {
         return this.getLeftChildIndex(parentIndex) < this.content.length;
     }
-    hasRightChild(parentNode) {
+    hasRightChild(parentIndex) {
         return this.getRightChildIndex(parentIndex) < this.content.length;
     }
     leftChild(parentIndex) {
@@ -59,7 +59,7 @@ class Heap {
     }
 
     remove(item, comparator = this.compare) {
-        const numRemove = this.find(item, comparator).pop();
+        const numRemove = this.find(item, comparator).length;
 
         for (let i = 0; i < numRemove; i++) {
             const indexToRemove = this.find(item, comparator).pop();
@@ -69,7 +69,7 @@ class Heap {
             else {
                 this.content[indexToRemove] = this.content.pop();
                 const parentIndex = this.parent(indexToRemove);
-                if (this.hadLeftChild(indexToRemove) &&
+                if (this.hasLeftChild(indexToRemove) &&
                     (!parentIndex || this.pairInCorrectOrder(parentIndex,
                         this.content[indexToRemove]))) {
                     this.heapifyDown(indexToRemove);
@@ -85,7 +85,7 @@ class Heap {
         const foundIndices = [];
         for (i = 0; i < this.content.length; i++) {
             if (comparator.equal(item, this.content[i])) {
-                foundIndices.push(itemIndex);
+                foundIndices.push(i);
             }
         }
         return foundIndices;
@@ -106,7 +106,7 @@ class Heap {
         }
     }
 
-    heapifyDown(customStartIndex) {
+    heapifyDown(customStartIndex = 0) {
         let index = customStartIndex;
         let nextIndex = null;
         while (this.hasLeftChild(index)) {

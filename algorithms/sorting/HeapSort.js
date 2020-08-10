@@ -7,11 +7,14 @@
 function heapSort(originalArr) {
     const array = [];
     const minHeap = new MinHeap();
+    console.log('HERE');
     for (let i = 0; i < originalArr.length; i++) {
         minHeap.add(originalArr[i]);
+        console.log(minHeap);
     }
     while (!minHeap.isEmpty()) {
         const nextSmallestElem = minHeap.poll();
+        console.log(nextSmallestElem);
         array.push(nextSmallestElem);
     }
 

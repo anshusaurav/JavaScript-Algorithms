@@ -1,7 +1,7 @@
 class Heap {
     constructor(comparatorFunction) {
         this.content = [];
-        this.comparator = new Comparator(comparatorFunction);
+        this.compare = new Comparator(comparatorFunction);
     }
     getLeftChildIndex(parentIndex) {
         return (2 * parentIndex) + 1;
@@ -58,4 +58,70 @@ class Heap {
         return this;
     }
 
+    remove(item, comparator = this.compare) {
+        const numRemove = this.find(item, comparator).pop();
+
+        for (let i = 0; i < numRemove; i++) {
+            const indexToRemove = this.find(item, comparator).pop();
+            if (indexToRemove === (this.content.length - 1)) {
+                this.content.pop();
+            }
+            else {
+                this.content[indexToRemove] = this.content.pop();
+                const parentIndex = this.parent(indexToRemove);
+                if (this.hadLeftChild(indexToRemove) &&
+                    (!parentIndex || this.pairInCorrectOrder(parentIndex,
+                        this.content[indexToRemove]))) {
+                    this.heapifyDown(indexToRemove);
+                }
+                else {
+                    this.heapifyUp(indexToRemove);
+                }
+            }
+        }
+        return this;
+    }
+    find(item, comparator = this.compare) {
+        const foundIndices = [];
+        for (i = 0; i < this.content.length; i++) {
+            if (comparator.equal(item, this.content[i])) {
+                foundIndices.push(itemIndex);
+            }
+        }
+        return foundIndices;
+    }
+    isEmpty() {
+        return !this.content.length;
+    }
+
+    toString() {
+        return this.content.toString();
+    }
+    heapifyUp(customStartIndex) {
+        let index = customStartIndex || this.content.length - 1;
+        while (this.hasParent(index) &&
+            !this.pairInCorrectOrder(this.parent(index), this.content[index])) {
+            this.swap(index, this.getParentIndex(index));
+            index = this.getParentIndex(index);
+        }
+    }
+
+    heapifyDown(customStartIndex) {
+        let index = customStartIndex;
+        let nextIndex = null;
+        while (this.hasLeftChild(index)) {
+            if (this.hasRightChild(index) &&
+                this.pairInCorrectOrder(this.rightChild(index),
+                    this.leftChild(index))) {
+                nextIndex = this.getRightChildIndex(index);
+            }
+            else {
+                nextIndex = this.getLeftChildIndex(index);
+            }
+            if (this.pairInCorrectOrder(this.content[index], this.content[nextIndex]))
+                break;
+        }
+        this.swap(index, nextIndex);
+        index = nextIndex;
+    }
 }

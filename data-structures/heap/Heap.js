@@ -33,7 +33,7 @@ class Heap {
     swap(indexOne, indexTwo) {
         const temp = this.content[indexTwo];
         this.content[indexTwo] = this.content[indexOne];
-        this.content[indexOne] = tmp;
+        this.content[indexOne] = temp;
     }
     peek() {
         if (this.content.length == 0)
@@ -123,5 +123,9 @@ class Heap {
         }
         this.swap(index, nextIndex);
         index = nextIndex;
+    }
+
+    pairInCorrectOrder(firstElem, secondElem) {
+        throw new Error('Need to implement pair comparison method')
     }
 }

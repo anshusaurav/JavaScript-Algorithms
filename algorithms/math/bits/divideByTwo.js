@@ -4,6 +4,6 @@
  * number itself is being divided by two without remainder.
  * @param {*} number 
  */
-function multiplyByTwo(number) {
+function divideByTwo(number) {
     return number >> 1;
 }

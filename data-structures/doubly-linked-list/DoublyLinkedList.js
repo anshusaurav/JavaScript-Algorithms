@@ -68,10 +68,13 @@ class DoublyLinkedList {
         return nodeToBeDeleted;
     }
 
-    find({ value = undefined }) {
+    find({ value = undefined, callback = undefined }) {
 
         let curr = this.head;
         while (curr) {
+            if (callback && callback(curr.value)) {
+                return curr;
+            }
             if (value !== undefined && this.compare.equal(curr.value, value))
                 return curr;
             curr = curr.next;

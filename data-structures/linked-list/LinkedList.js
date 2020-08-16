@@ -62,11 +62,16 @@ class LinkedList {
 
     }
 
-    find({ value = undefined, }) {
-
+    find({ value = undefined, callback = undefined }) {
+        if (!this.head) {
+            return null;
+        }
         let tmpNode = this.head;
 
         while (tmpNode) {
+            if (callback && callback(tmpNode.value)) {
+                return tmpNode;
+            }
             if (value !== undefined && this.compare.equal(tmpNode.value, value)) {
                 return tmpNode;
             }
